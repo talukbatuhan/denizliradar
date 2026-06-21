@@ -4,7 +4,9 @@
   --background: #ffffff;
   --foreground: #0f2744;
   --radar-navy: #0f2744;
-  --radar-accent: #dc2626;
+  --radar-navy-dark: #0a1a33;
+  --radar-navy-light: #1e3a5f;
+  --radar-accent: #b91c1c;
   --radar-orange: #ea580c;
   --radar-muted: #64748b;
   --radar-border: #e2e8f0;
@@ -15,6 +17,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-radar-navy: var(--radar-navy);
+  --color-radar-navy-dark: var(--radar-navy-dark);
+  --color-radar-navy-light: var(--radar-navy-light);
   --color-radar-accent: var(--radar-accent);
   --color-radar-orange: var(--radar-orange);
   --color-radar-muted: var(--radar-muted);
@@ -22,6 +26,7 @@
   --color-radar-surface: var(--radar-surface);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-source-serif);
+  --font-nav: var(--font-barlow-condensed);
 }
 
 body {
@@ -32,4 +37,8 @@ body {
 
 .font-serif {
   font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
+}
+
+.font-nav {
+  font-family: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
 }

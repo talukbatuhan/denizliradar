@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
-import { Navbar } from "@/components/layout/Navbar";
+import { Barlow_Condensed, Inter, Source_Serif_4 } from "next/font/google";
+import { Footer } from "@/components/layout/Footer";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
+});
+
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700"],
 });
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["600", "700"],
 });
 
@@ -29,10 +36,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className={`${inter.variable} ${sourceSerif.variable} h-full`}>
+    <html
+      lang="tr"
+      className={`${inter.variable} ${barlowCondensed.variable} ${sourceSerif.variable} h-full`}
+    >
       <body className="min-h-full flex flex-col antialiased">
-        <Navbar />
+        <SiteHeader />
         {children}
+        <Footer />
       </body>
     </html>
   );
