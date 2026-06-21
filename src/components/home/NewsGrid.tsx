@@ -1,14 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NewsCardMeta } from "@/components/news/NewsCardMeta";
+import {
+  newsCardBaseClass,
+  newsCardHoverClass,
+} from "@/components/news/news-card-styles";
 import type { NewsItem } from "@/lib/constants/placeholder-news";
 
 type NewsCardProps = {
   article: NewsItem;
 };
 
-function NewsCard({ article }: NewsCardProps) {
+export function NewsCard({ article }: NewsCardProps) {
   return (
-    <article className="group overflow-hidden border border-radar-border bg-white shadow-[0_1px_3px_rgba(15,39,68,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(15,39,68,0.12)]">
+    <article className={`group ${newsCardBaseClass} ${newsCardHoverClass}`}>
       <Link href={article.href} className="block">
         <div className="relative aspect-video overflow-hidden bg-radar-surface">
           <Image
@@ -19,8 +24,12 @@ function NewsCard({ article }: NewsCardProps) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
           />
         </div>
-        <div className="p-4">
-          <h3 className="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-radar-navy sm:text-base">
+        <div className="space-y-2 p-4">
+          <NewsCardMeta
+            publishedAtISO={article.publishedAtISO}
+            readTimeMinutes={article.readTimeMinutes}
+          />
+          <h3 className="line-clamp-2 font-serif text-[15px] font-bold leading-snug text-foreground sm:text-base">
             {article.title}
           </h3>
         </div>

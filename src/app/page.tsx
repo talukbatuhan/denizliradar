@@ -5,7 +5,7 @@ import { dunyaCategorySection, gridNews } from "@/lib/constants/placeholder-news
 
 export default function Home() {
   return (
-    <main className="flex-1 bg-white">
+    <main className="flex-1 bg-background">
       <div className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-6 sm:py-8 lg:py-10">
         <HeroSection />
         <NewsGrid articles={gridNews} />

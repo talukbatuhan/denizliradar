@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
@@ -11,6 +12,17 @@
   --radar-muted: #64748b;
   --radar-border: #e2e8f0;
   --radar-surface: #f8fafc;
+}
+
+.dark {
+  --background: #0a1018;
+  --foreground: #e2e8f0;
+  --radar-navy: #cbd5e1;
+  --radar-navy-dark: #0c1524;
+  --radar-navy-light: #1e293b;
+  --radar-muted: #94a3b8;
+  --radar-border: #1e293b;
+  --radar-surface: #111827;
 }
 
 @theme inline {

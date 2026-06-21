@@ -6,6 +6,7 @@ import {
   XIcon,
   YoutubeIcon,
 } from "@/components/icons/SocialIcons";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { mainNavItems } from "@/lib/constants/navigation";
 import { socialLinks } from "@/lib/constants/social";
 
@@ -66,6 +67,9 @@ export function Footer() {
               Bizi Takip Edin
             </p>
             <ul className="flex flex-wrap items-center gap-2.5">
+              <li>
+                <ThemeToggle />
+              </li>
               {socialLinks.map((social) => {
                 const Icon = socialIcons[social.icon];
 

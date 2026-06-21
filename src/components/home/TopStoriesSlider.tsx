@@ -24,7 +24,7 @@ export function TopStoriesSlider({ stories }: TopStoriesSliderProps) {
   return (
     <section
       aria-label="Top Stories"
-      className="flex h-[320px] flex-col border border-radar-border bg-white sm:h-[400px] lg:h-[480px]"
+      className="flex h-[320px] flex-col border border-radar-border bg-background sm:h-[400px] lg:h-[480px]"
     >
       <Link
         href={activeStory.href}
@@ -58,7 +58,7 @@ export function TopStoriesSlider({ stories }: TopStoriesSliderProps) {
               className={`font-nav min-w-0 flex-1 border-r border-radar-border py-1 text-center text-[10px] font-bold tabular-nums tracking-wide last:border-r-0 sm:py-1.5 sm:text-[11px] ${
                 isActive
                   ? "bg-radar-surface text-radar-accent"
-                  : "bg-white text-radar-navy/70 hover:bg-radar-surface/60"
+                  : "bg-background text-radar-navy/70 hover:bg-radar-surface/60"
               }`}
             >
               {index + 1}

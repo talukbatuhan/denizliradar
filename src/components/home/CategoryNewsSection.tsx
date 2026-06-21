@@ -1,24 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SideNewsBox } from "@/components/home/SideNewsBox";
+import { NewsCardMeta } from "@/components/news/NewsCardMeta";
+import {
+  newsCardBaseClass,
+  newsCardHoverClass,
+} from "@/components/news/news-card-styles";
 import type { CategorySectionData, NewsItem } from "@/lib/constants/placeholder-news";
 
 function FeaturedArticleCard({ article }: { article: NewsItem }) {
   return (
-    <article className="flex h-full min-h-[320px] flex-col border border-radar-border bg-white lg:min-h-0">
+    <article
+      className={`group flex h-full min-h-[320px] flex-col ${newsCardBaseClass} ${newsCardHoverClass} lg:min-h-0`}
+    >
       <Link href={article.href} className="flex h-full flex-col">
-        <div className="relative min-h-[220px] flex-1 bg-radar-surface">
+        <div className="relative min-h-[220px] flex-1 overflow-hidden bg-radar-surface">
           <Image
             src={article.imageUrl}
             alt={article.title}
             fill
             priority
-            className="object-cover"
+            className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
             sizes="(max-width: 1024px) 100vw, 600px"
           />
         </div>
-        <div className="border-t border-radar-border p-4 sm:p-5">
-          <h3 className="font-serif text-lg font-bold leading-snug text-radar-navy sm:text-xl lg:text-[22px] lg:leading-tight">
+        <div className="space-y-2 border-t border-radar-border p-4 sm:p-5">
+          <NewsCardMeta
+            publishedAtISO={article.publishedAtISO}
+            readTimeMinutes={article.readTimeMinutes}
+          />
+          <h3 className="font-serif text-lg font-bold leading-snug text-foreground sm:text-xl lg:text-[22px] lg:leading-tight">
             {article.title}
           </h3>
         </div>

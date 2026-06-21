@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { WeatherWidget } from "@/components/layout/WeatherWidget";
 import { mainNavItems } from "@/lib/constants/navigation";
+import { cn } from "@/lib/utils";
 
 function Logo({ className = "" }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={`font-nav shrink-0 text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:text-[17px] ${className}`}
+      className={cn(
+        "font-nav shrink-0 text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:text-[17px]",
+        className,
+      )}
     >
       DENİZLİRADAR.COM
     </Link>
@@ -22,17 +27,24 @@ function NavLink({
   label,
   onClick,
   className = "",
+  isActive = false,
 }: {
   href: string;
   label: string;
   onClick?: () => void;
   className?: string;
+  isActive?: boolean;
 }) {
   return (
     <Link
       href={href}
       onClick={onClick}
-      className={`font-nav whitespace-nowrap text-[13px] font-bold uppercase tracking-[0.1em] text-white transition-all hover:text-white/85 sm:text-sm lg:text-[15px] ${className}`}
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "font-nav whitespace-nowrap text-[13px] font-bold uppercase tracking-[0.1em] text-white transition-all hover:text-white/85 sm:text-sm lg:text-[15px]",
+        isActive && "text-white underline decoration-2 underline-offset-4",
+        className,
+      )}
     >
       {label}
     </Link>
@@ -48,8 +60,16 @@ function NavDivider() {
   );
 }
 
-export function Navbar() {
+type NavbarProps = {
+  onSearchOpen?: () => void;
+};
+
+export function Navbar({ onSearchOpen }: NavbarProps) {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -59,8 +79,7 @@ export function Navbar() {
   }, [mobileOpen]);
 
   return (
-    <header className="w-full border-b-2 border-[#991b1b] bg-radar-accent shadow-[0_2px_12px_rgba(185,28,28,0.35)]">
-      {/* Masaüstü */}
+    <header className="relative z-50 w-full border-b-2 border-[#991b1b] bg-radar-accent shadow-[0_2px_12px_rgba(185,28,28,0.35)]">
       <div className="relative mx-auto hidden max-w-[1400px] items-center justify-center px-6 py-3 lg:flex">
         <Logo className="absolute left-6 top-1/2 -translate-y-1/2" />
 
@@ -69,41 +88,96 @@ export function Navbar() {
             {mainNavItems.map((item, index) => (
               <li key={item.href} className="flex items-center gap-4 xl:gap-5">
                 {index > 0 && <NavDivider />}
-                <NavLink href={item.href} label={item.label} />
+                <NavLink
+                  href={item.href}
+                  label={item.label}
+                  isActive={isActive(item.href)}
+                />
               </li>
             ))}
           </ul>
         </nav>
 
-        <div className="absolute right-6 top-1/2 -translate-y-1/2">
+        <div className="absolute right-6 top-1/2 flex -translate-y-1/2 items-center gap-3">
+          {onSearchOpen && (
+            <button
+              type="button"
+              onClick={onSearchOpen}
+              className="inline-flex size-9 items-center justify-center text-white transition-colors hover:bg-white/15"
+              aria-label="Arama aç"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20L16.5 16.5" />
+              </svg>
+            </button>
+          )}
           <WeatherWidget />
         </div>
       </div>
 
-      {/* Mobil */}
       <div className="lg:hidden">
         <div className="relative flex items-center justify-between px-4 py-3">
           <Logo className="text-sm sm:text-base" />
           <div className="flex items-center gap-2 sm:gap-3">
+            {onSearchOpen && (
+              <button
+                type="button"
+                onClick={onSearchOpen}
+                className="inline-flex size-9 items-center justify-center text-white transition-colors hover:bg-white/15"
+                aria-label="Arama aç"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  className="size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M20 20L16.5 16.5" />
+                </svg>
+              </button>
+            )}
             <WeatherWidget compact />
             <button
-            type="button"
-            onClick={() => setMobileOpen((open) => !open)}
-            className="inline-flex size-9 items-center justify-center text-white transition-colors hover:bg-white/15"
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
-          >
-            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+              type="button"
+              onClick={() => setMobileOpen((open) => !open)}
+              className="inline-flex size-9 items-center justify-center text-white transition-colors hover:bg-white/15"
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
+            >
+              {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
           </div>
         </div>
 
         {!mobileOpen && (
-          <nav aria-label="Mobil kategoriler" className="border-t border-white/20">
-            <ul className="flex gap-6 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <nav
+            aria-label="Mobil kategoriler"
+            className="border-t border-white/20"
+          >
+            <ul className="flex gap-2 overflow-x-auto overscroll-x-contain px-4 py-2 touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {mainNavItems.map((item) => (
                 <li key={item.href} className="shrink-0">
-                  <NavLink href={item.href} label={item.label} />
+                  <Link
+                    href={item.href}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    className={cn(
+                      "font-nav inline-flex px-3 py-1.5 text-[13px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-white/10",
+                      isActive(item.href) && "bg-white/15",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -111,9 +185,8 @@ export function Navbar() {
         )}
       </div>
 
-      {/* Mobil tam ekran menü */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-radar-accent lg:hidden">
+        <div className="fixed inset-0 z-[60] bg-radar-accent lg:hidden">
           <div className="flex items-center justify-between border-b border-white/20 px-4 py-3">
             <Logo className="text-sm sm:text-base" />
             <button
@@ -137,6 +210,7 @@ export function Navbar() {
                     href={item.href}
                     label={item.label}
                     onClick={() => setMobileOpen(false)}
+                    isActive={isActive(item.href)}
                     className="text-base tracking-[0.12em]"
                   />
                 </li>
