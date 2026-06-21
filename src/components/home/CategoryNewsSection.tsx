@@ -6,7 +6,7 @@ import {
   newsCardBaseClass,
   newsCardHoverClass,
 } from "@/components/news/news-card-styles";
-import type { CategorySectionData, NewsItem } from "@/lib/constants/placeholder-news";
+import type { CategorySectionData, NewsItem } from "@/lib/types/news";
 
 function FeaturedArticleCard({ article }: { article: NewsItem }) {
   return (
@@ -43,6 +43,10 @@ type CategoryNewsSectionProps = {
 };
 
 export function CategoryNewsSection({ data }: CategoryNewsSectionProps) {
+  if (!data.featured && data.secondary.length === 0) {
+    return null;
+  }
+
   return (
     <section aria-labelledby={`category-${data.categoryLabel}`} className="mt-10 lg:mt-12">
       <Link
@@ -54,15 +58,21 @@ export function CategoryNewsSection({ data }: CategoryNewsSectionProps) {
       </Link>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2 lg:gap-5 lg:items-stretch">
-        <FeaturedArticleCard article={data.featured} />
+        {data.featured && <FeaturedArticleCard article={data.featured} />}
 
-        <ul className="grid min-h-[240px] grid-cols-2 grid-rows-2 gap-4 sm:min-h-[280px] lg:min-h-0 lg:h-full lg:gap-5">
+        {data.secondary.length > 0 && (
+          <ul
+            className={`grid min-h-[240px] grid-cols-2 grid-rows-2 gap-4 sm:min-h-[280px] lg:min-h-0 lg:h-full lg:gap-5 ${
+              data.featured ? "" : "lg:col-span-2"
+            }`}
+          >
           {data.secondary.map((article) => (
             <li key={article.id} className="min-h-0">
               <SideNewsBox story={article} />
             </li>
           ))}
-        </ul>
+          </ul>
+        )}
       </div>
     </section>
   );

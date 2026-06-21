@@ -5,6 +5,7 @@ export type NavItem = {
 
 export const mainNavItems: NavItem[] = [
   { label: "GÜNDEM", href: "/gundem" },
+  { label: "TÜRKİYE", href: "/turkiye" },
   { label: "DENİZLİ", href: "/denizli" },
   { label: "EKONOMİ", href: "/ekonomi" },
   { label: "SPOR", href: "/spor" },

@@ -1,11 +1,17 @@
 import { SideNewsBox } from "@/components/home/SideNewsBox";
 import { TopStoriesSlider } from "@/components/home/TopStoriesSlider";
-import {
-  sideStories,
-  topStories,
-} from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
-export function HeroSection() {
+type HeroSectionProps = {
+  topStories: NewsItem[];
+  sideStories: NewsItem[];
+};
+
+export function HeroSection({ topStories, sideStories }: HeroSectionProps) {
+  if (topStories.length === 0 && sideStories.length === 0) {
+    return null;
+  }
+
   return (
     <section aria-label="Öne çıkan haberler">
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">

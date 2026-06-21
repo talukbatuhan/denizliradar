@@ -1,5 +1,5 @@
 import { NewsCard } from "@/components/home/NewsGrid";
-import type { NewsItem } from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
 type RelatedNewsProps = {
   articles: NewsItem[];

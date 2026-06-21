@@ -5,9 +5,15 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { NewsCard } from "@/components/home/NewsGrid";
 import { SearchModal } from "@/components/search/SearchModal";
-import { popularArticles } from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
-export function NotFoundContent() {
+type NotFoundContentProps = {
+  popularArticles?: NewsItem[];
+};
+
+export function NotFoundContent({
+  popularArticles = [],
+}: NotFoundContentProps) {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
@@ -44,18 +50,20 @@ export function NotFoundContent() {
             </div>
           </div>
 
-          <section aria-label="Popüler haberler" className="mt-12">
-            <h2 className="font-nav text-sm font-bold uppercase tracking-[0.14em] text-foreground">
-              Popüler Haberler
-            </h2>
-            <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {popularArticles.map((article) => (
-                <li key={article.id}>
-                  <NewsCard article={article} />
-                </li>
-              ))}
-            </ul>
-          </section>
+          {popularArticles.length > 0 && (
+            <section aria-label="Popüler haberler" className="mt-12">
+              <h2 className="font-nav text-sm font-bold uppercase tracking-[0.14em] text-foreground">
+                Popüler Haberler
+              </h2>
+              <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {popularArticles.map((article) => (
+                  <li key={article.id}>
+                    <NewsCard article={article} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
       </main>
 

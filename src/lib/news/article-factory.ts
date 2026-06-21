@@ -1,4 +1,4 @@
-import type { NewsItem } from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
 type ArticleInput = {
   id: string;

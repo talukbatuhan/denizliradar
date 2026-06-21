@@ -5,7 +5,7 @@ import {
   newsCardBaseClass,
   newsCardHoverClass,
 } from "@/components/news/news-card-styles";
-import type { NewsItem } from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
 type NewsCardProps = {
   article: NewsItem;
@@ -43,6 +43,8 @@ type NewsGridProps = {
 };
 
 export function NewsGrid({ articles }: NewsGridProps) {
+  if (articles.length === 0) return null;
+
   return (
     <section aria-label="Son haberler" className="mt-8 lg:mt-10">
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

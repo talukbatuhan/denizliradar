@@ -8,7 +8,7 @@ export function getCategoryHref(category: string): string {
     Asayiş: "/asayis",
     Siyaset: "/siyaset",
     Yaşam: "/yasam",
-    Dünya: "/dunya",
+    Türkiye: "/turkiye",
   };
 
   return map[category] ?? "/";

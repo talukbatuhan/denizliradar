@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCategoryHref } from "@/lib/news/category-href";
 import { NewsCardMeta } from "@/components/news/NewsCardMeta";
-import type { NewsItem } from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
 type ArticleHeaderProps = {
   article: NewsItem;

@@ -11,19 +11,22 @@ import {
   getRelatedArticles,
 } from "@/lib/news/get-article-by-slug";
 
+export const revalidate = 60;
+
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return getAllArticleSlugs().map((slug) => ({ slug }));
+  const slugs = await getAllArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return { title: "Haber bulunamadı" };
@@ -35,7 +38,7 @@ export async function generateMetadata({
     openGraph: {
       title: article.title,
       description: article.excerpt ?? article.title,
-      images: [{ url: article.imageUrl }],
+      images: article.imageUrl ? [{ url: article.imageUrl }] : undefined,
       type: "article",
     },
   };
@@ -43,20 +46,21 @@ export async function generateMetadata({
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
-  const related = getRelatedArticles(slug);
+  const related = await getRelatedArticles(slug);
   const shareUrl = `https://denizliradar.com/haber/${article.slug}`;
   const paragraphs =
-    article.content ??
-    [
-      article.excerpt ??
-        "Denizli Radar editörleri tarafından hazırlanan haber içeriği yakında güncellenecektir.",
-    ];
+    article.content && article.content.length > 0
+      ? article.content
+      : [
+          article.excerpt ??
+            "Denizli Radar editörleri tarafından hazırlanan haber içeriği yakında güncellenecektir.",
+        ];
 
   return (
     <>

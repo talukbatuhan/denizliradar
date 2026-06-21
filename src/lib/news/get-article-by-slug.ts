@@ -1,34 +1,22 @@
-import { allArticles } from "@/lib/constants/placeholder-news";
-import type { NewsItem } from "@/lib/constants/placeholder-news";
+import {
+  fetchAllPublishedSlugs,
+  fetchArticleBySlug,
+  fetchRelatedArticles,
+  searchPublishedArticles,
+} from "@/lib/news/queries";
 
-export function getArticleBySlug(slug: string): NewsItem | undefined {
-  return allArticles.find((article) => article.slug === slug);
+export async function getArticleBySlug(slug: string) {
+  return fetchArticleBySlug(slug);
 }
 
-export function getAllArticleSlugs(): string[] {
-  return allArticles.map((article) => article.slug);
+export async function getAllArticleSlugs() {
+  return fetchAllPublishedSlugs();
 }
 
-export function getRelatedArticles(slug: string, limit = 3): NewsItem[] {
-  const current = getArticleBySlug(slug);
-  if (!current) return allArticles.slice(0, limit);
-
-  return allArticles
-    .filter(
-      (article) =>
-        article.slug !== slug && article.category === current.category,
-    )
-    .slice(0, limit);
+export async function getRelatedArticles(slug: string, limit = 3) {
+  return fetchRelatedArticles(slug, limit);
 }
 
-export function searchArticles(query: string): NewsItem[] {
-  const normalized = query.trim().toLowerCase();
-  if (!normalized) return [];
-
-  return allArticles.filter(
-    (article) =>
-      article.title.toLowerCase().includes(normalized) ||
-      article.category.toLowerCase().includes(normalized) ||
-      article.excerpt?.toLowerCase().includes(normalized),
-  );
+export async function searchArticles(query: string) {
+  return searchPublishedArticles(query);
 }

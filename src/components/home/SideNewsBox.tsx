@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { NewsItem } from "@/lib/constants/placeholder-news";
+import type { NewsItem } from "@/lib/types/news";
 
 type SideNewsBoxProps = {
   story: NewsItem;

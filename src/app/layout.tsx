@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Barlow_Condensed, Inter, Source_Serif_4 } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { SiteHeader } from "@/components/layout/SiteHeader";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
@@ -44,11 +42,7 @@ export default function RootLayout({
       className={`${inter.variable} ${barlowCondensed.variable} ${sourceSerif.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground antialiased">
-        <ThemeProvider>
-          <SiteHeader />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
         <Analytics />
       </body>
     </html>
