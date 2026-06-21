@@ -129,24 +129,121 @@ export async function fetchAllPublishedSlugs(): Promise<string[]> {
 export type SitemapArticle = {
   slug: string;
   updated_at: string;
+  published_at: string | null;
+  category_slug: string;
 };
 
-export async function fetchSitemapArticles(): Promise<SitemapArticle[]> {
+export type SitemapData = {
+  articles: SitemapArticle[];
+  categoryLastModified: Record<string, string>;
+};
+
+export async function fetchSitemapData(): Promise<SitemapData> {
+  if (!isSupabaseConfigured()) {
+    return { articles: [], categoryLastModified: {} };
+  }
+
+  const supabase = createAnonClient();
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, updated_at, published_at, categories ( slug )")
+    .eq("status", "published")
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error("fetchSitemapData:", error.message);
+    return { articles: [], categoryLastModified: {} };
+  }
+
+  const articles: SitemapArticle[] = [];
+  const categoryLastModified: Record<string, string> = {};
+
+  for (const row of data ?? []) {
+    const category = Array.isArray(row.categories)
+      ? row.categories[0]
+      : row.categories;
+    const categorySlug = category?.slug ?? "gundem";
+    const lastModified = row.updated_at ?? row.published_at ?? new Date().toISOString();
+
+    articles.push({
+      slug: row.slug,
+      updated_at: row.updated_at,
+      published_at: row.published_at,
+      category_slug: categorySlug,
+    });
+
+    const existing = categoryLastModified[categorySlug];
+    if (!existing || new Date(lastModified) > new Date(existing)) {
+      categoryLastModified[categorySlug] = lastModified;
+    }
+  }
+
+  return { articles, categoryLastModified };
+}
+
+/** @deprecated Use fetchSitemapData instead */
+export async function fetchSitemapArticles(): Promise<
+  Pick<SitemapArticle, "slug" | "updated_at">[]
+> {
+  const { articles } = await fetchSitemapData();
+  return articles.map(({ slug, updated_at }) => ({ slug, updated_at }));
+}
+
+export type SyndicationArticleRow = {
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  published_at: string;
+};
+
+export async function fetchFeedArticles(
+  limit = 50,
+): Promise<SyndicationArticleRow[]> {
   if (!isSupabaseConfigured()) return [];
 
   const supabase = createAnonClient();
   const { data, error } = await supabase
     .from("articles")
-    .select("slug, updated_at")
+    .select("slug, title, excerpt, published_at")
     .eq("status", "published")
-    .order("updated_at", { ascending: false });
+    .not("published_at", "is", null)
+    .order("published_at", { ascending: false })
+    .limit(limit);
 
   if (error) {
-    console.error("fetchSitemapArticles:", error.message);
+    console.error("fetchFeedArticles:", error.message);
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as SyndicationArticleRow[];
+}
+
+export async function fetchNewsSitemapArticles(options?: {
+  maxAgeHours?: number;
+  limit?: number;
+}): Promise<SyndicationArticleRow[]> {
+  if (!isSupabaseConfigured()) return [];
+
+  const maxAgeHours = options?.maxAgeHours ?? 48;
+  const limit = options?.limit ?? 1000;
+  const since = new Date(Date.now() - maxAgeHours * 60 * 60 * 1000).toISOString();
+
+  const supabase = createAnonClient();
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, title, excerpt, published_at")
+    .eq("status", "published")
+    .not("published_at", "is", null)
+    .gte("published_at", since)
+    .order("published_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("fetchNewsSitemapArticles:", error.message);
+    return [];
+  }
+
+  return (data ?? []) as SyndicationArticleRow[];
 }
 
 export async function fetchArticlesByCategory(

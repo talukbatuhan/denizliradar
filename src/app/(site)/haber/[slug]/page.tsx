@@ -12,7 +12,7 @@ import {
   getRelatedArticles,
 } from "@/lib/news/get-article-by-slug";
 import { buildArticleJsonLd } from "@/lib/seo/article-json-ld";
-import { buildPageMetadata } from "@/lib/seo/metadata";
+import { buildArticleMetadata } from "@/lib/seo/metadata";
 import { absoluteUrl } from "@/lib/site";
 
 export const revalidate = 60;
@@ -26,42 +26,15 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: ArticlePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
 
   if (!article) {
-    return { title: "Haber bulunamadı" };
+    return { title: "Haber bulunamadı", robots: { index: false, follow: false } };
   }
 
-  const description = article.excerpt ?? article.title;
-  const articlePath = `/haber/${article.slug}`;
-
-  return buildPageMetadata({
-    title: article.title,
-    description,
-    path: articlePath,
-    openGraph: {
-      type: "article",
-      title: article.title,
-      description,
-      url: absoluteUrl(articlePath),
-      publishedTime: article.publishedAtISO,
-      modifiedTime: article.updatedAtISO,
-      section: article.category,
-      tags: [article.category],
-      images: article.imageUrl
-        ? [
-            {
-              url: article.imageUrl,
-              alt: article.title,
-            },
-          ]
-        : undefined,
-    },
-  });
+  return buildArticleMetadata(article);
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {

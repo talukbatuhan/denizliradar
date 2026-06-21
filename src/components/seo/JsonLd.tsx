@@ -1,12 +1,18 @@
+type JsonLdValue = Record<string, unknown>;
+
 type JsonLdProps = {
-  data: Record<string, unknown> | Record<string, unknown>[];
+  data: JsonLdValue | JsonLdValue[];
 };
+
+function serializeJsonLd(data: JsonLdValue | JsonLdValue[]): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
 
 export function JsonLd({ data }: JsonLdProps) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }}
     />
   );
 }

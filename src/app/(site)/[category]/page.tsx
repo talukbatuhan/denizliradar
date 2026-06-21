@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { buildPageMetadata } from "@/lib/seo/metadata";
+import { buildCategoryMetadata } from "@/lib/seo/metadata";
 import { notFound } from "next/navigation";
 import { CategoryArticleCard } from "@/components/category/CategoryArticleCard";
 import { CategoryBanner } from "@/components/category/CategoryBanner";
@@ -38,15 +38,11 @@ export async function generateMetadata({
   const config = getCategoryConfig(category);
   if (!config) return { title: "Kategori bulunamadı" };
 
-  return buildPageMetadata({
+  return buildCategoryMetadata({
     title: config.seoTitle,
     description: config.seoDescription,
     path: `/${category}`,
-    openGraph: {
-      type: "website",
-      title: `${config.label} | Denizli Radar`,
-      description: config.seoDescription,
-    },
+    label: config.label,
   });
 }
 
