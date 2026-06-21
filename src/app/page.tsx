@@ -1,65 +1,79 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Newspaper } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-1 flex-col bg-radar-surface">
+      <section className="relative overflow-hidden border-b border-radar-border bg-white">
+        <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-radar-accent/5 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-16 size-72 rounded-full bg-radar-navy/5 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-radar-border bg-radar-surface px-3 py-1 text-xs font-semibold uppercase tracking-wider text-radar-muted">
+              <Newspaper className="size-3.5" />
+              UI / UX Tasarım Aşaması
+            </span>
+            <h1 className="mt-6 font-serif text-4xl font-bold leading-tight tracking-tight text-radar-navy sm:text-5xl">
+              Denizli&apos;nin haber radarı{" "}
+              <span className="text-radar-accent">yakında burada.</span>
+            </h1>
+            <p className="mt-5 text-lg leading-relaxed text-radar-muted">
+              Navbar ve temel arayüz hazır. Sırada haber kartları, kategori
+              sayfaları ve Supabase ile içerik yönetimi var.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/gundem"
+                className="inline-flex items-center gap-2 rounded-full bg-radar-navy px-5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              >
+                Gündem&apos;e Git
+                <ArrowRight className="size-4" />
+              </Link>
+              <Link
+                href="/iletisim"
+                className="inline-flex items-center gap-2 rounded-full border border-radar-border bg-white px-5 py-3 text-sm font-semibold text-radar-navy transition-colors hover:bg-radar-surface"
+              >
+                Bize Ulaşın
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-radar-muted">
+          Tasarım Önizlemesi
+        </h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: "Son Dakika Şeridi",
+              desc: "Kırmızı vurgulu, dikkat çekici breaking news alanı.",
+            },
+            {
+              title: "Katmanlı Navbar",
+              desc: "Üst bilgi, logo, arama ve kategori navigasyonu.",
+            },
+            {
+              title: "Mobil Uyumlu",
+              desc: "Kaydırılabilir kategoriler ve tam ekran mobil menü.",
+            },
+          ].map((item) => (
+            <article
+              key={item.title}
+              className="rounded-2xl border border-radar-border bg-white p-6 shadow-sm"
+            >
+              <h3 className="font-serif text-lg font-bold text-radar-navy">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-radar-muted">
+                {item.desc}
+              </p>
+            </article>
+          ))}
         </div>
-      </main>
+      </section>
     </div>
   );
 }
