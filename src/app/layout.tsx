@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Barlow_Condensed, Inter, Source_Serif_4 } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { rootMetadata } from "@/lib/seo/metadata";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,14 +22,7 @@ const sourceSerif = Source_Serif_4({
   weight: ["600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Denizli Radar | Denizli'nin Haber Merkezi",
-    template: "%s | Denizli Radar",
-  },
-  description:
-    "Denizli ve çevresinden güncel haberler, son dakika gelişmeleri, spor, ekonomi ve yaşam.",
-};
+export const metadata: Metadata = rootMetadata;
 
 export default function RootLayout({
   children,

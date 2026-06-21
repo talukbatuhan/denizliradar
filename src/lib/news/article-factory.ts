@@ -34,6 +34,7 @@ export function createArticle(input: ArticleInput): NewsItem {
     imageUrl: input.imageUrl,
     publishedAt: formatPublishedDate(published),
     publishedAtISO: published.toISOString(),
+    updatedAtISO: published.toISOString(),
     readTimeMinutes: input.readTimeMinutes ?? 3,
     content: input.content,
   };

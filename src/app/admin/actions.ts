@@ -13,6 +13,7 @@ import {
 
 function revalidateSitePaths(slug?: string) {
   revalidatePath("/");
+  revalidatePath("/sitemap.xml");
   revalidatePath("/gundem");
   revalidatePath("/turkiye");
   revalidatePath("/denizli");

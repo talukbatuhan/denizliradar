@@ -52,7 +52,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
           </Link>
         )}
       </div>
-      <div className="border border-white/10 bg-white/5 p-6 text-foreground">
+      <div className="admin-form-surface p-6">
         <ArticleForm categories={categories} article={article} />
       </div>
     </div>

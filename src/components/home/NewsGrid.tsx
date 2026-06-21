@@ -4,6 +4,8 @@ import { NewsCardMeta } from "@/components/news/NewsCardMeta";
 import {
   newsCardBaseClass,
   newsCardHoverClass,
+  newsImageAspectClass,
+  newsImageCoverClass,
 } from "@/components/news/news-card-styles";
 import type { NewsItem } from "@/lib/types/news";
 
@@ -15,12 +17,12 @@ export function NewsCard({ article }: NewsCardProps) {
   return (
     <article className={`group ${newsCardBaseClass} ${newsCardHoverClass}`}>
       <Link href={article.href} className="block">
-        <div className="relative aspect-video overflow-hidden bg-radar-surface">
+        <div className={newsImageAspectClass}>
           <Image
             src={article.imageUrl}
             alt={article.title}
             fill
-            className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+            className={newsImageCoverClass}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
           />
         </div>

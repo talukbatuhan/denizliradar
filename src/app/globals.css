@@ -51,6 +51,44 @@ body {
   font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
 }
 
-.font-nav {
-  font-family: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+.admin-shell {
+  color: #f1f5f9;
 }
+
+.admin-form-surface {
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(255 255 255 / 0.05);
+}
+
+.admin-label {
+  color: rgb(255 255 255 / 0.65);
+}
+
+.admin-hint {
+  color: rgb(255 255 255 / 0.5);
+}
+
+.admin-field {
+  border: 1px solid rgb(255 255 255 / 0.15);
+  background: #0a1018;
+  color: #f1f5f9;
+}
+
+.admin-field::placeholder {
+  color: rgb(255 255 255 / 0.35);
+}
+
+.admin-field:focus {
+  border-color: rgb(255 255 255 / 0.4);
+  outline: none;
+}
+
+.admin-secondary-btn {
+  border: 1px solid rgb(255 255 255 / 0.2);
+  color: #f1f5f9;
+}
+
+.admin-secondary-btn:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+

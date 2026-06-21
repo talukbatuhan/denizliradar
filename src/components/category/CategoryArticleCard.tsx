@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { NewsCardMeta } from "@/components/news/NewsCardMeta";
-import { newsCardBaseClass } from "@/components/news/news-card-styles";
+import {
+  newsCardBaseClass,
+  newsImageAspectClass,
+  newsImageCoverClass,
+} from "@/components/news/news-card-styles";
 import type { NewsItem } from "@/lib/types/news";
 
 const categoryCardHoverClass =
@@ -17,12 +21,12 @@ export function CategoryArticleCard({ article }: CategoryArticleCardProps) {
       className={`group ${newsCardBaseClass} ${categoryCardHoverClass} rounded-none`}
     >
       <Link href={article.href} className="block rounded-none">
-        <div className="relative aspect-video overflow-hidden rounded-none bg-radar-surface">
+        <div className={`${newsImageAspectClass} rounded-none`}>
           <Image
             src={article.imageUrl}
             alt={article.title}
             fill
-            className="rounded-none object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+            className={`rounded-none ${newsImageCoverClass}`}
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
           />
         </div>

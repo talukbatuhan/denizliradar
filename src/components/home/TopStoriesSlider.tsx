@@ -196,14 +196,14 @@ export function TopStoriesSlider({ stories }: TopStoriesSliderProps) {
     <section
       aria-label="Top Stories"
       aria-roledescription="carousel"
-      className="flex h-[320px] flex-col border border-radar-border bg-background sm:h-[400px] lg:h-[480px]"
+      className="flex flex-col border border-radar-border bg-background"
     >
       <div
         ref={containerRef}
         tabIndex={0}
         onKeyDown={onKeyDown}
         className={cn(
-          "relative min-h-0 flex-1 touch-pan-y overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-radar-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "relative aspect-video w-full touch-pan-y overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-radar-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           isDragging ? "cursor-grabbing" : "cursor-grab",
         )}
         onPointerDown={(event) => {
@@ -253,7 +253,7 @@ export function TopStoriesSlider({ stories }: TopStoriesSliderProps) {
                   alt={story.title}
                   fill
                   priority={index === 0}
-                  className="pointer-events-none object-cover select-none"
+                  className="pointer-events-none object-cover object-center select-none"
                   sizes="(max-width: 1024px) 100vw, 66vw"
                   draggable={false}
                 />

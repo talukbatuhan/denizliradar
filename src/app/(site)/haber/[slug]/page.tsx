@@ -5,11 +5,15 @@ import { ArticleHeader } from "@/components/article/ArticleHeader";
 import { ReadingProgressBar } from "@/components/article/ReadingProgressBar";
 import { RelatedNews } from "@/components/article/RelatedNews";
 import { ShareButtons } from "@/components/article/ShareButtons";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getAllArticleSlugs,
   getArticleBySlug,
   getRelatedArticles,
 } from "@/lib/news/get-article-by-slug";
+import { buildArticleJsonLd } from "@/lib/seo/article-json-ld";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+import { absoluteUrl } from "@/lib/site";
 
 export const revalidate = 60;
 
@@ -32,16 +36,32 @@ export async function generateMetadata({
     return { title: "Haber bulunamadı" };
   }
 
-  return {
+  const description = article.excerpt ?? article.title;
+  const articlePath = `/haber/${article.slug}`;
+
+  return buildPageMetadata({
     title: article.title,
-    description: article.excerpt ?? article.title,
+    description,
+    path: articlePath,
     openGraph: {
-      title: article.title,
-      description: article.excerpt ?? article.title,
-      images: article.imageUrl ? [{ url: article.imageUrl }] : undefined,
       type: "article",
+      title: article.title,
+      description,
+      url: absoluteUrl(articlePath),
+      publishedTime: article.publishedAtISO,
+      modifiedTime: article.updatedAtISO,
+      section: article.category,
+      tags: [article.category],
+      images: article.imageUrl
+        ? [
+            {
+              url: article.imageUrl,
+              alt: article.title,
+            },
+          ]
+        : undefined,
     },
-  };
+  });
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
@@ -53,7 +73,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const related = await getRelatedArticles(slug);
-  const shareUrl = `https://denizliradar.com/haber/${article.slug}`;
+  const shareUrl = absoluteUrl(article.href);
   const paragraphs =
     article.content && article.content.length > 0
       ? article.content
@@ -64,6 +84,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
+      <JsonLd data={buildArticleJsonLd(article)} />
       <ReadingProgressBar />
       <main className="flex-1 bg-background pb-12">
         <ArticleHeader article={article} />

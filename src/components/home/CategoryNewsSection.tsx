@@ -5,22 +5,22 @@ import { NewsCardMeta } from "@/components/news/NewsCardMeta";
 import {
   newsCardBaseClass,
   newsCardHoverClass,
+  newsImageAspectClass,
+  newsImageCoverClass,
 } from "@/components/news/news-card-styles";
 import type { CategorySectionData, NewsItem } from "@/lib/types/news";
 
 function FeaturedArticleCard({ article }: { article: NewsItem }) {
   return (
-    <article
-      className={`group flex h-full min-h-[320px] flex-col ${newsCardBaseClass} ${newsCardHoverClass} lg:min-h-0`}
-    >
-      <Link href={article.href} className="flex h-full flex-col">
-        <div className="relative min-h-[220px] flex-1 overflow-hidden bg-radar-surface">
+    <article className={`group ${newsCardBaseClass} ${newsCardHoverClass}`}>
+      <Link href={article.href} className="block">
+        <div className={newsImageAspectClass}>
           <Image
             src={article.imageUrl}
             alt={article.title}
             fill
             priority
-            className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+            className={newsImageCoverClass}
             sizes="(max-width: 1024px) 100vw, 600px"
           />
         </div>
@@ -57,20 +57,20 @@ export function CategoryNewsSection({ data }: CategoryNewsSectionProps) {
         {data.categoryLabel}
       </Link>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2 lg:gap-5 lg:items-stretch">
+      <div className="mt-4 grid gap-4 lg:grid-cols-2 lg:gap-5 lg:items-start">
         {data.featured && <FeaturedArticleCard article={data.featured} />}
 
         {data.secondary.length > 0 && (
           <ul
-            className={`grid min-h-[240px] grid-cols-2 grid-rows-2 gap-4 sm:min-h-[280px] lg:min-h-0 lg:h-full lg:gap-5 ${
+            className={`grid grid-cols-2 gap-4 lg:gap-5 ${
               data.featured ? "" : "lg:col-span-2"
             }`}
           >
-          {data.secondary.map((article) => (
-            <li key={article.id} className="min-h-0">
-              <SideNewsBox story={article} />
-            </li>
-          ))}
+            {data.secondary.map((article) => (
+              <li key={article.id}>
+                <SideNewsBox story={article} />
+              </li>
+            ))}
           </ul>
         )}
       </div>

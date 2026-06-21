@@ -126,6 +126,29 @@ export async function fetchAllPublishedSlugs(): Promise<string[]> {
   return (data ?? []).map((row) => row.slug);
 }
 
+export type SitemapArticle = {
+  slug: string;
+  updated_at: string;
+};
+
+export async function fetchSitemapArticles(): Promise<SitemapArticle[]> {
+  if (!isSupabaseConfigured()) return [];
+
+  const supabase = createAnonClient();
+  const { data, error } = await supabase
+    .from("articles")
+    .select("slug, updated_at")
+    .eq("status", "published")
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error("fetchSitemapArticles:", error.message);
+    return [];
+  }
+
+  return data ?? [];
+}
+
 export async function fetchArticlesByCategory(
   categorySlug: CategorySlug,
 ): Promise<NewsItem[]> {

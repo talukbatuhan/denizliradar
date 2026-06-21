@@ -27,7 +27,7 @@ export default function AdminLoginForm() {
 
   if (!isSupabaseConfigured()) {
     return (
-      <div className="mx-auto max-w-md border border-white/10 bg-white/5 p-6">
+      <div className="admin-form-surface mx-auto max-w-md p-6">
         <h1 className="font-nav text-lg font-bold uppercase tracking-[0.12em]">
           Kurulum Gerekli
         </h1>
@@ -62,7 +62,7 @@ export default function AdminLoginForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md border border-white/10 bg-white/5 p-6">
+    <div className="admin-form-surface mx-auto max-w-md p-6">
       <h1 className="font-nav text-lg font-bold uppercase tracking-[0.12em]">
         CMS Girişi
       </h1>
@@ -78,7 +78,7 @@ export default function AdminLoginForm() {
         )}
 
         <label className="block space-y-2">
-          <span className="text-xs uppercase tracking-[0.14em] text-white/50">
+          <span className="admin-label text-xs uppercase tracking-[0.14em]">
             E-posta
           </span>
           <input
@@ -86,12 +86,12 @@ export default function AdminLoginForm() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full border border-white/15 bg-[#0c1524] px-3 py-2 text-sm outline-none focus:border-white/40"
+            className="admin-field w-full px-3 py-2 text-sm"
           />
         </label>
 
         <label className="block space-y-2">
-          <span className="text-xs uppercase tracking-[0.14em] text-white/50">
+          <span className="admin-label text-xs uppercase tracking-[0.14em]">
             Şifre
           </span>
           <input
@@ -99,7 +99,7 @@ export default function AdminLoginForm() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full border border-white/15 bg-[#0c1524] px-3 py-2 text-sm outline-none focus:border-white/40"
+            className="admin-field w-full px-3 py-2 text-sm"
           />
         </label>
 

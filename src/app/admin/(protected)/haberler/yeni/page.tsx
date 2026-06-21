@@ -16,7 +16,7 @@ export default async function NewArticlePage() {
       <h1 className="font-nav mb-6 mt-2 text-2xl font-bold uppercase tracking-[0.12em]">
         Yeni Haber
       </h1>
-      <div className="border border-white/10 bg-white/5 p-6 text-foreground">
+      <div className="admin-form-surface p-6">
         <ArticleForm categories={categories} />
       </div>
     </div>

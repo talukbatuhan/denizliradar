@@ -35,9 +35,17 @@ export function WeatherWidget({ compact = false }: { compact?: boolean }) {
     async function loadWeather() {
       try {
         const response = await fetch("/api/weather");
-        if (response.ok) {
-          setWeather(await response.json());
-        }
+        if (!response.ok) return;
+
+        const text = await response.text();
+        if (!text.trim()) return;
+
+        const data = JSON.parse(text) as WeatherData;
+        if (typeof data.temperature !== "number") return;
+
+        setWeather(data);
+      } catch {
+        // Widget sessizce yedek metne düşer.
       } finally {
         setLoading(false);
       }

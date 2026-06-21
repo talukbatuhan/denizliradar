@@ -22,6 +22,10 @@ const homepageSlotOptions: { value: HomepageSlot | ""; label: string }[] = [
   { value: "turkiye_secondary", label: "Türkiye Yan Kutular" },
 ];
 
+const fieldClassName = "admin-field w-full px-3 py-2 text-sm";
+const labelClassName =
+  "font-nav admin-label text-xs font-bold uppercase tracking-[0.14em]";
+
 type ArticleFormProps = {
   categories: CategoryRow[];
   article?: AdminArticleRow | null;
@@ -123,53 +127,47 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 text-white">
       {error && (
-        <p className="border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p className="border border-red-400/40 bg-red-950/40 px-4 py-3 text-sm text-red-200">
           {error}
         </p>
       )}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <label className="block space-y-2">
-          <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-            Başlık
-          </span>
+          <span className={labelClassName}>Başlık</span>
           <input
             required
             value={title}
             onChange={(event) => handleTitleChange(event.target.value)}
-            className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+            className={fieldClassName}
           />
         </label>
 
         <label className="block space-y-2">
-          <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-            Slug
-          </span>
+          <span className={labelClassName}>Slug</span>
           <input
             required
             value={slug}
             onChange={(event) => setSlug(slugify(event.target.value))}
-            className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+            className={fieldClassName}
           />
         </label>
       </div>
 
       <label className="block space-y-2">
-        <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-          Özet
-        </span>
+        <span className={labelClassName}>Özet</span>
         <textarea
           value={excerpt}
           onChange={(event) => setExcerpt(event.target.value)}
           rows={3}
-          className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+          className={fieldClassName}
         />
       </label>
 
       <label className="block space-y-2">
-        <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
+        <span className={labelClassName}>
           İçerik (paragraflar arasında boş satır bırakın)
         </span>
         <textarea
@@ -177,20 +175,18 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
           value={content}
           onChange={(event) => setContent(event.target.value)}
           rows={12}
-          className="w-full border border-radar-border bg-background px-3 py-2 text-sm leading-relaxed outline-none focus:border-[#991b1b]"
+          className={`${fieldClassName} leading-relaxed`}
         />
       </label>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <label className="block space-y-2">
-          <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-            Kategori
-          </span>
+          <span className={labelClassName}>Kategori</span>
           <select
             required
             value={categoryId}
             onChange={(event) => setCategoryId(event.target.value)}
-            className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+            className={fieldClassName}
           >
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
@@ -201,19 +197,17 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
         </label>
 
         <label className="block space-y-2">
-          <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-            Durum
-          </span>
+          <span className={labelClassName}>Durum</span>
           <select
             value={status}
             onChange={(event) => setStatus(event.target.value as ArticleStatus)}
-            className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+            className={fieldClassName}
           >
             <option value="draft">Taslak</option>
             <option value="published">Yayında</option>
             <option value="archived">Arşiv</option>
           </select>
-          <p className="text-xs text-radar-muted">
+          <p className="admin-hint text-xs">
             Yayında olan haberler sitede görünür. Taslak ve arşiv gizlidir.
           </p>
         </label>
@@ -221,28 +215,24 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <label className="block space-y-2">
-          <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-            Okuma Süresi (dk)
-          </span>
+          <span className={labelClassName}>Okuma Süresi (dk)</span>
           <input
             type="number"
             min={1}
             value={readTimeMinutes}
             onChange={(event) => setReadTimeMinutes(event.target.value)}
-            className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+            className={fieldClassName}
           />
         </label>
 
         <label className="block space-y-2">
-          <span className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-            Ana Sayfa Yerleşimi
-          </span>
+          <span className={labelClassName}>Ana Sayfa Yerleşimi</span>
           <select
             value={homepageSlot}
             onChange={(event) =>
               setHomepageSlot(event.target.value as HomepageSlot | "")
             }
-            className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+            className={fieldClassName}
           >
             {homepageSlotOptions.map((option) => (
               <option key={option.label} value={option.value}>
@@ -253,12 +243,10 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
         </label>
       </div>
 
-      <div className="space-y-3 border border-radar-border p-4">
-        <p className="font-nav text-xs font-bold uppercase tracking-[0.14em] text-radar-muted">
-          Kapak Görseli
-        </p>
+      <div className="space-y-3 border border-white/15 p-4">
+        <p className={labelClassName}>Kapak Görseli</p>
         {coverImageUrl && (
-          <div className="relative aspect-video max-w-md overflow-hidden border border-radar-border">
+          <div className="relative aspect-video max-w-md overflow-hidden border border-white/15">
             <Image
               src={coverImageUrl}
               alt="Kapak görseli"
@@ -271,17 +259,17 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
           type="file"
           accept="image/*"
           onChange={(event) => handleUpload(event.target.files?.[0] ?? null)}
-          className="block w-full text-sm"
+          className="block w-full text-sm text-white/80 file:mr-3 file:border file:border-white/20 file:bg-white/10 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white"
         />
         {uploading && (
-          <p className="text-sm text-radar-muted">Görsel yükleniyor...</p>
+          <p className="admin-hint text-sm">Görsel yükleniyor...</p>
         )}
         <input
           type="url"
           value={coverImageUrl}
           onChange={(event) => setCoverImageUrl(event.target.value)}
           placeholder="veya görsel URL'si yapıştırın"
-          className="w-full border border-radar-border bg-background px-3 py-2 text-sm outline-none focus:border-[#991b1b]"
+          className={fieldClassName}
         />
       </div>
 
@@ -296,7 +284,7 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
         <button
           type="button"
           onClick={() => router.push("/admin/haberler")}
-          className="border border-radar-border px-5 py-2.5 text-sm font-medium"
+          className="admin-secondary-btn px-5 py-2.5 text-sm font-medium"
         >
           İptal
         </button>
@@ -305,7 +293,7 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
             href={`/haber/${slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-radar-border px-5 py-2.5 text-sm font-medium"
+            className="admin-secondary-btn px-5 py-2.5 text-sm font-medium"
           >
             Sitede Gör
           </Link>
@@ -315,7 +303,7 @@ export function ArticleForm({ categories, article }: ArticleFormProps) {
             type="button"
             onClick={handleDelete}
             disabled={isPending}
-            className="ml-auto border border-red-300 px-5 py-2.5 text-sm font-medium text-red-700"
+            className="ml-auto border border-red-400/40 px-5 py-2.5 text-sm font-medium text-red-200 hover:bg-red-950/40 disabled:opacity-60"
           >
             Sil
           </button>

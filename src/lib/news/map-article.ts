@@ -31,6 +31,7 @@ export function mapArticleRowToNewsItem(row: ArticleRow): NewsItem {
     imageUrl: row.cover_image_url,
     publishedAt: formatPublishedDate(publishedAtISO),
     publishedAtISO,
+    updatedAtISO: row.updated_at,
     readTimeMinutes: row.read_time_minutes,
     content,
   };

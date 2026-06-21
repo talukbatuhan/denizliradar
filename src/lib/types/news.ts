@@ -8,6 +8,7 @@ export type NewsItem = {
   imageUrl: string;
   publishedAt: string;
   publishedAtISO: string;
+  updatedAtISO: string;
   readTimeMinutes: number;
   content?: string[];
 };
