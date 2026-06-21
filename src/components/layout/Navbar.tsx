@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { WeatherWidget } from "@/components/layout/WeatherWidget";
 import { mainNavItems } from "@/lib/constants/navigation";
@@ -41,7 +41,7 @@ function NavLink({
       onClick={onClick}
       aria-current={isActive ? "page" : undefined}
       className={cn(
-        "font-nav whitespace-nowrap text-[13px] font-bold uppercase tracking-[0.1em] text-white transition-all hover:text-white/85 sm:text-sm lg:text-[15px]",
+        "font-nav whitespace-nowrap text-[13px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:text-white/85 sm:text-sm lg:text-[15px]",
         isActive && "text-white underline decoration-2 underline-offset-4",
         className,
       )}
@@ -64,7 +64,7 @@ type NavbarProps = {
   onSearchOpen?: () => void;
 };
 
-export function Navbar({ onSearchOpen }: NavbarProps) {
+function NavbarComponent({ onSearchOpen }: NavbarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -79,7 +79,7 @@ export function Navbar({ onSearchOpen }: NavbarProps) {
   }, [mobileOpen]);
 
   return (
-    <header className="relative z-50 w-full border-b-2 border-[#991b1b] bg-radar-accent shadow-[0_2px_12px_rgba(185,28,28,0.35)]">
+    <header className="relative w-full border-b-2 border-[#991b1b] bg-radar-accent max-lg:shadow-none lg:shadow-[0_2px_12px_rgba(185,28,28,0.35)]">
       <div className="relative mx-auto hidden max-w-[1400px] items-center justify-center px-6 py-3 lg:flex">
         <Logo className="absolute left-6 top-1/2 -translate-y-1/2" />
 
@@ -163,16 +163,16 @@ export function Navbar({ onSearchOpen }: NavbarProps) {
         {!mobileOpen && (
           <nav
             aria-label="Mobil kategoriler"
-            className="border-t border-white/20"
+            className="border-t border-white/20 max-lg:[transform:translate3d(0,0,0)]"
           >
-            <ul className="flex gap-2 overflow-x-auto overscroll-x-contain px-4 py-2 touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <ul className="flex gap-2 overflow-x-auto overscroll-x-contain px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {mainNavItems.map((item) => (
                 <li key={item.href} className="shrink-0">
                   <Link
                     href={item.href}
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={cn(
-                      "font-nav inline-flex px-3 py-1.5 text-[13px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-white/10",
+                      "font-nav inline-flex px-3 py-1.5 text-[13px] font-bold uppercase tracking-[0.1em] text-white hover:bg-white/10 max-lg:transition-none lg:transition-colors",
                       isActive(item.href) && "bg-white/15",
                     )}
                   >
@@ -222,3 +222,5 @@ export function Navbar({ onSearchOpen }: NavbarProps) {
     </header>
   );
 }
+
+export const Navbar = memo(NavbarComponent);

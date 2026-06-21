@@ -42,6 +42,18 @@ export function Footer() {
             <p className="max-w-sm text-sm leading-relaxed text-white/50">
             Denizli'nin duayen haber sitesiyle gündemi anbean takip edin.
             </p>
+
+            <div>
+              <p className="font-nav mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/35">
+                İletişim
+              </p>
+              <a
+                href="mailto:info@denizliradar.com"
+                className="text-sm text-white/65 transition-colors hover:text-white"
+              >
+                info@denizliradar.com
+              </a>
+            </div>
           </div>
 
           <nav aria-label="Footer menü" className="lg:pt-1">

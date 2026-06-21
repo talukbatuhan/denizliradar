@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const MOBILE_QUERY = "(max-width: 1023px)";
-const SCROLL_DELTA = 10;
-const TOP_THRESHOLD = 12;
+const SCROLL_DELTA = 24;
+const TOP_THRESHOLD = 16;
+const TOGGLE_COOLDOWN_MS = 400;
 
 export function useMobileSubNavVisibility() {
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const lastToggleAt = useRef(0);
   const ticking = useRef(false);
 
   useEffect(() => {
@@ -16,7 +18,15 @@ export function useMobileSubNavVisibility() {
     lastScrollY.current = window.scrollY;
 
     function applyVisibility(nextVisible: boolean) {
-      setVisible((current) => (current === nextVisible ? current : nextVisible));
+      const now = Date.now();
+
+      setVisible((current) => {
+        if (current === nextVisible) return current;
+        if (now - lastToggleAt.current < TOGGLE_COOLDOWN_MS) return current;
+
+        lastToggleAt.current = now;
+        return nextVisible;
+      });
     }
 
     function updateVisibility() {
@@ -49,6 +59,7 @@ export function useMobileSubNavVisibility() {
     }
 
     function onBreakpointChange() {
+      lastToggleAt.current = 0;
       applyVisibility(true);
       lastScrollY.current = window.scrollY;
     }
